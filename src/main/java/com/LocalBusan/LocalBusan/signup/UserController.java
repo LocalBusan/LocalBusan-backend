@@ -1,4 +1,4 @@
-package signup.controller;
+package com.LocalBusan.LocalBusan.signup;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
