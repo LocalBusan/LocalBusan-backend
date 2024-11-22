@@ -10,6 +10,7 @@
     <input name="password" type="password" id="password">
 </form>
 <button onclick="loginJWT()">JWT방식로그인</button>
+<button onclick="getMyPage()">마이페이지주세요</button>
 
 <script>
     function loginJWT(){
@@ -21,6 +22,12 @@
                 password : document.querySelector('#password').value
             })
         }).then(r => r.text()).then((r)=>{ console.log(r) })
+    }
+
+    function getMyPage(){
+        fetch('/my-page/jwt')
+            .then(r => r.text())
+            .then(r =>{ console.log(r) })
     }
 </script>
 

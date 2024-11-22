@@ -2,8 +2,12 @@ package com.LocalBusan.LocalBusan.signup;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.metamodel.internal.MemberResolver;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.Map;
 
 @Tag(name = "User-Controller", description = "회원가입, 로그인 API")
@@ -47,14 +52,33 @@ public class UserController {
     @PostMapping("/api/users/login")
     @ResponseBody
     @Operation(summary = "로그인", description = "로그인 합니다.")
-    public String loginJWT(@RequestBody Map<String, String> data){
-        System.out.println(data);
+    public ResponseEntity<Void> loginJWT(@RequestBody Map<String, String> data, HttpServletResponse response){
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(data.get("username"), data.get("password"));
         // 로그인 시켜주는 코드
         var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
         var jwt = JwtUtil.createToken(SecurityContextHolder.getContext().getAuthentication());
-        System.out.println(jwt);
-        return jwt;
+
+        var cookie = new Cookie("jwt", jwt);
+        cookie.setMaxAge(10800);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setAttribute("SameSite", "None");
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/"));
+        return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
+    }
+
+    @GetMapping("/my-page/jwt")
+    @ResponseBody
+    String myPageJWT(Authentication auth){
+        var user = (CustomUser) auth.getPrincipal();
+        System.out.println(user.getUsername());
+        System.out.println(user.getAuthorities());
+        System.out.println(user.getNickname());
+
+        return "마이페이지";
     }
 }
