@@ -1,5 +1,6 @@
-package com.LocalBusan.LocalBusan.signup;
+package com.LocalBusan.LocalBusan.jwt;
 
+import com.LocalBusan.LocalBusan.signup.CustomUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -21,7 +22,6 @@ public class JwtUtil {
     // JWT 만들어주는 함수
     public static String createToken(Authentication auth) {
         var user = (CustomUser) auth.getPrincipal();
-        System.out.println("실행 " + user);
         var authorities = auth.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.joining(","));
         String jwt = Jwts.builder()
                 .claim("email", user.getUsername())
@@ -31,6 +31,7 @@ public class JwtUtil {
                 .expiration(new Date(System.currentTimeMillis() + 10000000)) //유효기간
                 .signWith(key)
                 .compact();
+        System.out.println(jwt);
         return jwt;
     }
 
