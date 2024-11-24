@@ -37,4 +37,16 @@ public class CommentController {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("/{id}/comments/{commentId}")
+    @Operation(summary = "댓글 삭제", description = "댓글을 삭제합니다.")
+    public ResponseEntity<Void> deleteComment(Authentication auth, @PathVariable("id") Integer article_id, @PathVariable("commentId") Integer reply_id){
+        Comment comment = commentRepository.getReferenceById(reply_id);
+
+        commentRepository.delete(comment);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+
 }
