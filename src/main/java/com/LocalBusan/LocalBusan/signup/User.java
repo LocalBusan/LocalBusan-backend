@@ -15,6 +15,7 @@ public class User {
 
     public Integer region_id;
     public String password;
+    @Column(unique = true)
     public String email;
     public Boolean is_admin;
     public String nickname;
