@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@RequestMapping("/api/boards")
 @RestController
 public class ArticleController {
 
@@ -15,7 +16,7 @@ public class ArticleController {
     private ArticleService articleService;
 
     // 게시글 작성 (POST)
-    @PostMapping("/api/boards")
+    @PostMapping
     public Article createArticle(@RequestBody ArticleRequest request) {
         System.out.println("컨트롤러 진입");
         return articleService.createArticle(request);
