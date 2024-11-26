@@ -44,8 +44,10 @@ public class ArticleController {
             System.out.println("Extracted User ID: " + userEmailString); // 디버깅
 
             // 게시글 생성 요청 처리
-            articleService.createArticle(userEmailString, request);
-            return ResponseEntity.ok("게시글이 성공적으로 작성되었습니다.");
+            Article createdArticle = articleService.createArticle(userEmailString, request);
+
+            // 생성된 게시물을 응답으로 반환
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdArticle);
 
         } catch (Exception e) {
             e.printStackTrace(); // 디버깅

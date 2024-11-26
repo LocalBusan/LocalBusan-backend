@@ -28,7 +28,7 @@ public class ArticleService {
     @Autowired
     private RegionRepository regionRepository;
 
-    public void createArticle(String email, ArticleRequest request) {
+    public Article createArticle(String email, ArticleRequest request) {
 
 
         User user = userRepository.findByEmail(email)
@@ -56,7 +56,7 @@ public class ArticleService {
         article.setContent(request.getContent());
         article.setCreated_at(LocalDate.now());
 
-        articleRepository.save(article);
+        return articleRepository.save(article);
     }
 
     // 게시글 수정
