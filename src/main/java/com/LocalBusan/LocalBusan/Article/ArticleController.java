@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller
+@RequestMapping("/api/board")
+@RestController
 public class ArticleController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class ArticleController {
     }
 
     // 게시글 작성 (POST)
-    @PostMapping("/api/board")
+    @PostMapping
     public ResponseEntity<?> createArticle(
             @CookieValue(value = "jwt", required = false) String jwt, // 쿠키에서 JWT 추출
             @RequestBody ArticleRequest request) {
@@ -52,36 +53,32 @@ public class ArticleController {
         }
     }
 
-    /*
-    //샘플 article 생성
-    @PostConstruct
-    public Article createSampe() {
-        ArticleRequest request = new ArticleRequest(1, 1, 1, "a", "b", "c", "d");
-        System.out.println("컨트롤러 진입");
-        return articleService.createArticle(request);
-    }
-
-     */
     // 게시글 조회 (GET)
-    @GetMapping("/api/board/{id}")
+    @GetMapping("/{id}")
     public Article getArticle(@PathVariable("id") Integer id) {
         return articleService.getArticleById(id);
     }
 
     // 게시글 수정 (PUT)
-    @PutMapping("/api/board/{id}")
+    @PutMapping("/{id}")
     public Article updateArticle(@PathVariable("id") Integer id, @RequestBody ArticleRequest request) {
         return articleService.updateArticle(id, request);
     }
 
     // 게시글 삭제 (DELETE)
-    @DeleteMapping("/api/board/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteArticle(@PathVariable("id") Integer id) {
         articleService.deleteArticle(id);
         return ResponseEntity.noContent().build();  // 성공적으로 삭제되었음을 나타냄
     }
 
     // 게시글 작성 사이드
+}
+
+@Controller
+class getHtml {
     @GetMapping("/postBoard")
-    public String getPostBoard() { return "postBoard"; }
+    public String getPostBoard() {
+        return "/postBoard";
+    }
 }
