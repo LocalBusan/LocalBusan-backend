@@ -13,8 +13,11 @@ import java.util.List;
 @Service
 public class ArticleService {
 
-    @Autowired
-    private ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
+
+    public ArticleService(ArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
+    }
 
     @Autowired
     private UserRepository userRepository;
@@ -25,8 +28,10 @@ public class ArticleService {
     @Autowired
     private RegionRepository regionRepository;
 
-    public Article createArticle(ArticleRequest request) {
-        User user = userRepository.findById(request.getUser_id())
+    public void createArticle(String email, ArticleRequest request) {
+
+
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Category category = null;
@@ -51,7 +56,7 @@ public class ArticleService {
         article.setContent(request.getContent());
         article.setCreated_at(LocalDate.now());
 
-        return articleRepository.save(article);
+        articleRepository.save(article);
     }
 
     // 게시글 수정
