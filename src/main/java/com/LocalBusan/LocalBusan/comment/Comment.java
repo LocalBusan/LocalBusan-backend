@@ -1,5 +1,6 @@
 package com.LocalBusan.LocalBusan.comment;
 
+import com.LocalBusan.LocalBusan.Article.Article;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -18,7 +19,9 @@ public class Comment {
     @Column(unique = true)
     public Integer reply_id;
     public Integer user_id;
-    public Integer article_id;
+    @ManyToOne
+    @JoinColumn(name = "article_id")
+    public Article article;
     public String content;
     @Temporal(TemporalType.TIMESTAMP)
     public Date created_at;
