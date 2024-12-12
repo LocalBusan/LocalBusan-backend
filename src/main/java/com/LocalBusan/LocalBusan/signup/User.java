@@ -10,8 +10,8 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true)
-    public int user_id;
+    @Column(unique = true, name = "user_id")
+    public int userId;
 
     public Integer region_id;
     public String password;
@@ -20,12 +20,12 @@ public class User {
     public Boolean is_admin;
     public String nickname;
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Integer getRegion_id() {
