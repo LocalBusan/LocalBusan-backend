@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ public class CommentController {
 
         Comment comment = new Comment();
         comment.setContent(data.get("content"));
-        comment.setUser_id(temp.user_id);
+        comment.setUser_id(temp.userId);
         comment.setArticle(articleRepository.findById(article_id).get());
 
         commentRepository.save(comment);
@@ -66,7 +67,7 @@ public class CommentController {
         User temp = userRepository.findByEmail(user.getUsername()).get();
         Comment comment = commentRepository.findById(comment_id)
                 .orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다."));
-        if (!comment.getUser_id().equals(temp.getUser_id())) {
+        if (!comment.getUser_id().equals(temp.getUserId())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
@@ -79,16 +80,26 @@ public class CommentController {
     //댓글 조회
     @GetMapping("/{id}/comments")
     @Operation(summary = "댓글 조회", description = "특정 게시글에 대한 댓글 목록을 조회합니다.")
-    public ResponseEntity<List<Comment>> getCommentsByArticle(@PathVariable("id") Integer article_id) {
+    public ResponseEntity<List<CommentRequest>> getCommentsByArticle(@PathVariable("id") Integer article_id) {
         List<Comment> comments = commentRepository.findByArticle(articleRepository.findById(article_id).get());
-
-
 
         if (comments == null || comments.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(comments);
+        List<CommentRequest> ret = new ArrayList<>();
+
+        for(Comment c : comments){
+            CommentRequest commentRequest = new CommentRequest();
+            User user = userRepository.findByUserId(c.getUser_id()).get();
+            commentRequest.setNickname(user.getNickname());
+            commentRequest.setCreated_at(c.getCreated_at());
+            commentRequest.setContent(c.getContent());
+            commentRequest.setReply_id(c.getReply_id());
+            ret.add(commentRequest);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(ret);
     }
 
 
