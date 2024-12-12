@@ -61,6 +61,11 @@ public class ArticleController {
         return articleService.getArticleById(id);
     }
 
+    @GetMapping
+    public List<Article> getAllArticles() {
+        return articleService.getAllArticles();
+    }
+
     // 게시글 수정 (PUT)
     @PutMapping("/{id}")
     public Article updateArticle(@PathVariable("id") Integer id, @RequestBody ArticleRequest request) {

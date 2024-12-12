@@ -111,7 +111,7 @@
 
         if (response.ok) {
             alert('게시물이 성공적으로 작성되었습니다.');
-            window.location.href = '/PostBoard';
+            window.location.href = '/postBoard';
         } else {
             const error = await response.json();
             alert(`게시물 작성 실패: ${error.message || response.statusText}`);

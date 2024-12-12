@@ -83,7 +83,7 @@ public class ArticleService {
         article.setThumbnail_url(request.getThumbnail_url());
         article.setContent(request.getContent());
         article.setUpdated_at(LocalDate.now());
-
+  
         return articleRepository.save(article);
     }
     // 게시글 삭제
