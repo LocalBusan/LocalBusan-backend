@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
     // 추가적인 쿼리 메서드 작성 가능
-    @Query("SELECT a FROM Article a ORDER BY a.id DESC")
+    @Query("SELECT * FROM Article ORDER BY DESC")
     List<Article> findAllOrderByIdDesc();
 }
