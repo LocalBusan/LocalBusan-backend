@@ -1,5 +1,5 @@
 package com.LocalBusan.LocalBusan.Article;
-
+import org.springframework.data.domain.Sort;
 import com.LocalBusan.LocalBusan.Category.*;
 import com.LocalBusan.LocalBusan.region.*;
 import com.LocalBusan.LocalBusan.signup.*;
@@ -95,7 +95,7 @@ public class ArticleService {
 
     // 게시글 목록 조회
     public List<Article> getAllArticles() {
-        return articleRepository.findAll();
+        return articleRepository.findAll(Sort.by(Sort.Direction.DESC, "article_id"));
     }
     // 게시글 조회 (ID로 검색)
     public Article getArticleById(Integer articleId) {
