@@ -95,7 +95,7 @@ public class ArticleService {
 
     // 게시글 목록 조회
     public List<Article> getAllArticles() {
-        return articleRepository.findAll(Sort.by(Sort.Direction.DESC, "article_id"));
+        return articleRepository.findAll(Sort.by(Sort.Direction.DESC, "title"));
     }
     // 게시글 조회 (ID로 검색)
     public Article getArticleById(Integer articleId) {
