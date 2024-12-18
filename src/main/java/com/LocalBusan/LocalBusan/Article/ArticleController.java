@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RequestMapping("/api/board")
+@RequestMapping("/api/boards")
 @RestController
 public class ArticleController {
 
