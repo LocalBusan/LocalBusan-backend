@@ -59,7 +59,7 @@ public class UserController {
 
         var cookie = new Cookie("jwt", jwt);
         cookie.setMaxAge(10800);
-        sscookie.setHttpOnly(true);
+        cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setAttribute("SameSite", "None");
         cookie.setPath("/");
